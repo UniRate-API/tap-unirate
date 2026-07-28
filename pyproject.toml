@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "tap-unirate"
+version = "0.1.0"
+description = "Singer tap for the UniRate API — currency exchange rates, currencies, and VAT rates for Meltano / ELT pipelines."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "Unirate Team", email = "admin@unirateapi.com" }]
+keywords = ["unirate", "singer", "meltano", "elt", "currency"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
+]
+dependencies = [
+    "singer-sdk>=0.40.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7",
+    "requests-mock>=1.11",
+    "singer-sdk[testing]>=0.40.0",
+]
+
+[project.scripts]
+tap-unirate = "tap_unirate.tap:TapUniRate.cli"
+
+[project.urls]
+Homepage = "https://github.com/UniRate-API/tap-unirate"
+Documentation = "https://github.com/UniRate-API/tap-unirate#readme"
+Source = "https://github.com/UniRate-API/tap-unirate"
+Issues = "https://github.com/UniRate-API/tap-unirate/issues"
+"UniRate API" = "https://unirateapi.com"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tap_unirate"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B", "ANN", "C4", "RUF"]
+ignore = ["ANN401"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN", "S101"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_unused_configs = true
+ignore_missing_imports = true

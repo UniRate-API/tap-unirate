@@ -1,0 +1,16 @@
+# Snippet for the Meltano Hub PR.
+#
+# Add the following line to `_data/default_variants.yml` in meltano/hub,
+# keeping the top-level `extractors:` map in alphabetical order:
+#
+# extractors:
+#   ...
+#   tap-unirate: unirate-api
+#   ...
+#
+# The extractor definition itself lives at:
+#   _data/meltano/extractors/tap-unirate/unirate-api.yml
+#
+# This file is a reference note only — it is NOT the file to commit as-is.
+extractors:
+  tap-unirate: unirate-api
