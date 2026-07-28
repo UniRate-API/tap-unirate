@@ -26,7 +26,7 @@ Singer target or Meltano ELT pipeline.
 pip install tap-unirate
 ```
 
-Requires Python 3.9+.
+Requires Python 3.10+ (matching the Meltano Singer SDK).
 
 Or add it to a Meltano project:
 
