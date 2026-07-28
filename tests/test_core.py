@@ -22,17 +22,22 @@ _BaseTapTests = get_tap_test_class(
 )
 
 
-class TestTapUniRate(_BaseTapTests):
-    """Standard SDK tap tests with mocked HTTP.
+@pytest.fixture(scope="class", autouse=True)
+def _mock_http():
+    """Register the HTTP mocks for the class-scoped SDK tap tests.
 
-    The mocker is ``scope="class"`` so it is active when the SDK's own
+    Defined at module scope (not as a method) so it works identically across
+    Python/pytest versions: a class-scoped fixture written as an instance
+    method is deprecated in pytest 9, while wrapping it in ``@classmethod``
+    breaks under pytest 8 on Python 3.9 (``classmethod`` has no ``__name__``).
+    It is ``scope="class"`` so the mocks are live when the SDK's own
     class-scoped ``runner`` fixture calls ``sync_all()`` — a function-scoped
     fixture would resolve too late and let the sync hit the live API.
     """
+    with rm_module.Mocker() as m:
+        fixtures.register_all(m)
+        yield m
 
-    @pytest.fixture(scope="class", autouse=True)
-    @classmethod
-    def _mock_http(cls):
-        with rm_module.Mocker() as m:
-            fixtures.register_all(m)
-            yield m
+
+class TestTapUniRate(_BaseTapTests):
+    """Standard SDK tap tests with mocked HTTP (see ``_mock_http`` above)."""
